@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Center Coin Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <!-- Room Join Screen -->
+        <div id="roomScreen" class="screen">
+            <div class="container">
+                <div class="card">
+                    <h1>🎯 Center Coin Game</h1>
+                    <p>Join or create a room to start playing</p>
+                    
+                    <div class="form-group">
+                        <label for="playerName">Your Name</label>
+                        <input type="text" id="playerName" placeholder="Enter your name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="entryFee">Entry Fee (₹)</label>
+                        <input type="number" id="entryFee" value="5" min="1">
+                    </div>
+                    
+                    <div class="room-options">
+                        <div class="form-group">
+                            <label for="roomCode">Room Code</label>
+                            <input type="text" id="roomCode" placeholder="Enter room code">
+                        </div>
+                        <button id="joinRoomBtn">Join Room</button>
+                        
+                        <div class="divider">OR</div>
+                        
+                        <button id="createRoomBtn" class="btn-primary">Create New Room</button>
+                    </div>
+                    
+                    <div id="roomInfo" class="hidden">
+                        <div class="room-code-display">
+                            <p>Room Code:</p>
+                            <h2 id="generatedRoomCode"></h2>
+                            <p>Share this code with other players</p>
+                        </div>
+                        <div id="playersInRoom"></div>
+                        <button id="startGameBtn" class="btn-success">Start Game</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Game Screen -->
+        <div id="gameScreen" class="screen hidden">
+            <div class="container">
+                <div class="game-header">
+                    <div class="room-info">
+                        <span>Room: <strong id="currentRoomCode"></strong></span>
+                        <span>Player: <strong id="currentPlayerName"></strong></span>
+                    </div>
+                    <button id="leaveRoomBtn" class="btn-danger">Leave Room</button>
+                </div>
+                
+                <div class="game-container">
+                    <!-- Left Panel: Game Setup (Only visible to host) -->
+                    <div id="gameSetupSection" class="card">
+                        <h2 class="card-title">⚙️ Game Setup</h2>
+                        <div class="setup-section">
+                            <div class="form-group">
+                                <label for="addMoneyPlayer">Add Money to Player</label>
+                                <select id="addMoneyPlayer">
+                                    <option value="">Select a player</option>
+                                </select>
+                                <input type="number" id="addMoneyAmount" placeholder="Amount to add" style="margin-top: 10px;">
+                                <button id="addMoneyBtn" style="margin-top: 10px;">Add Money</button>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="startPlayerSelect">Start Game With Player</label>
+                                <select id="startPlayerSelect">
+                                    <option value="">Select a player</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="game-controls">
+                            <button id="distributeCoinsBtn" disabled>Distribute Coins</button>
+                            <button id="nextTurnBtn" disabled>Next Turn</button>
+                            <button id="endGameBtn" disabled>End Game</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Center Panel: Game Board -->
+                    <div class="card">
+                        <h2 class="card-title">🎮 Game Board</h2>
+                        
+                        <div class="pot-info">
+                            <h3>💰 Current Pot</h3>
+                            <div class="pot-amount">₹<span id="potAmount">0</span></div>
+                        </div>
+                        
+                        <div id="currentDraw" class="current-draw hidden">
+                            <h3>Drawn Coin</h3>
+                            <div class="drawn-coin" id="drawnCoin">?</div>
+                            <div id="drawResult"></div>
+                        </div>
+                        
+                        <div class="betting-controls" id="bettingControls">
+                            <h3>Current Turn: <span id="currentPlayerTurn">-</span></h3>
+                            <div class="form-group">
+                                <label for="betAmount">Bet Amount (₹)</label>
+                                <input type="number" id="betAmount" min="1" value="5">
+                            </div>
+                            <div style="display: flex; gap: 10px;">
+                                <button id="placeBetBtn" class="btn-success">Place Bet</button>
+                                <button id="skipTurnBtn" class="btn-warning">Skip Turn</button>
+                            </div>
+                        </div>
+                        
+                        <div id="playersContainer" class="players-grid"></div>
+                    </div>
+                    
+                    <!-- Right Panel: Game Log -->
+                    <div class="card">
+                        <h2 class="card-title">📝 Game Log</h2>
+                        <div id="gameLog" class="game-log"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Pot Empty Modal -->
+        <div id="potEmptyModal" class="modal">
+            <div class="modal-content">
+                <h2 class="modal-title">Pot is Empty!</h2>
+                <div class="modal-body">
+                    <p>What would you like to do?</p>
+                    <div style="margin-top: 20px;">
+                        <button id="newGameBtn" class="btn-success">Start New Game</button>
+                        <button id="endGameFromPotBtn" class="btn-danger">End Game</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- End Game Modal -->
+        <div id="endGameModal" class="modal">
+            <div class="modal-content">
+                <h2 class="modal-title">Game Over</h2>
+                <div class="modal-body">
+                    <p>Final Results:</p>
+                    <div id="finalResults"></div>
+                </div>
+                <div class="modal-footer">
+                    <button id="closeModalBtn">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    
+    <!-- Game Scripts -->
+    <script src="firebase-config.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>

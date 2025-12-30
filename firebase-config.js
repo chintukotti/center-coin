@@ -1,14 +1,5 @@
 // Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyD7YQ5HyCoPwtWVFn4fV1-d1xt0c8zjfbg",
-  authDomain: "center-coin-3f6b8.firebaseapp.com",
-  databaseURL: "https://center-coin-3f6b8-default-rtdb.firebaseio.com",
-  projectId: "center-coin-3f6b8",
-  storageBucket: "center-coin-3f6b8.firebasestorage.app",
-  messagingSenderId: "188488768147",
-  appId: "1:188488768147:web:f83525724bcecf83d0cb66",
-  measurementId: "G-J9D6LWS56S"
-};
+ -- Firebase configuration here
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
